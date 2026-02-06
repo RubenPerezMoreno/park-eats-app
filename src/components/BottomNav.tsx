@@ -13,7 +13,9 @@ const navItems = [
   { path: '/profile', icon: User, label: 'Perfil' },
 ];
 
-export default function BottomNav() {
+import React from 'react';
+
+const BottomNav = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>((props, ref) => {
   const location = useLocation();
   const { getItemCount } = useCart();
   const { unreadCount } = useNotifications();
@@ -26,7 +28,7 @@ export default function BottomNav() {
   if (shouldHide) return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-card border-t border-border safe-area-inset-bottom">
+    <nav ref={ref} className="fixed bottom-0 left-0 right-0 z-40 bg-card border-t border-border safe-area-inset-bottom" {...props}>
       <div className="max-w-md mx-auto flex items-center justify-around py-2">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path || 
@@ -71,4 +73,7 @@ export default function BottomNav() {
       </div>
     </nav>
   );
-}
+});
+BottomNav.displayName = "BottomNav";
+
+export default BottomNav;
